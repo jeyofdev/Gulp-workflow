@@ -41,6 +41,7 @@ gulp.task('copy-js', () =>  {
     'node_modules/bootstrap/dist/js/bootstrap.min.js'
   ])
   .pipe(concat('vendor.js'))
+  .pipe(rename({suffix: '.min'}))
   .pipe(gulp.dest('src/js/'))
 })
 
@@ -53,6 +54,7 @@ gulp.task('copy-css', () => {
     'node_modules/bootstrap/dist/css/bootstrap.min.css'
   ])
   .pipe(concat('vendor.css'))
+  .pipe(rename({suffix: '.min'}))
   .pipe(gulp.dest('src/css/'))
 })
 
@@ -85,7 +87,6 @@ gulp.task('default', ['clean', 'copy-js', 'copy-css', 'csscomb', 'css', 'img'], 
     .pipe(useref())
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minifyCss()))
-    .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest('dist'))
 })
 
