@@ -2,6 +2,10 @@ const gulp = require('gulp')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
 const csscomb = require ('gulp-csscomb')
+const useref = require('gulp-useref')
+const gulpif = require('gulp-if')
+const uglify = require('gulp-uglify')
+const minifyCss = require('gulp-clean-css')
 
 
 
@@ -28,7 +32,11 @@ gulp.task('css', function(){
 
 // default task
 gulp.task('default', ['csscomb', 'css'], () => {
-  
+  gulp.src('src/*.html')
+    .pipe(useref())
+    .pipe(gulpif('*.js', uglify()))
+    .pipe(gulpif('*.css', minifyCss()))
+    .pipe(gulp.dest('dist'));
 })
 
 
