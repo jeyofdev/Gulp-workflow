@@ -1,17 +1,7 @@
-$color: #e7e8f1;
+@import 'app/custom'
 
 
-body{
-    width: 100%;
-    height: 100vh;
-    background: transparent;
-}
 
-p{
-    position: relative;
-    width: 100%;
-    color: $color;
-    text-align: left;
-    outline: none;
-    transform: translate3d(10%, 0, 0);
-}
+
+
+

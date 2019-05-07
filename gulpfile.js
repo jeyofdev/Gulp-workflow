@@ -1,8 +1,10 @@
 const gulp = require('gulp')
 const del = require('del')
+const rename = require("gulp-rename")
+const concat = require('gulp-concat')
+const csscomb = require ('gulp-csscomb')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
-const csscomb = require ('gulp-csscomb')
 const useref = require('gulp-useref')
 const gulpif = require('gulp-if')
 const uglify = require('gulp-uglify')
@@ -11,15 +13,19 @@ const imagemin = require('gulp-imagemin')
 
 
 
-// delete the dist folder before each asset build
-gulp.task('clean', function () {
-  return del('dist');
+// delete some files before each asset creation
+gulp.task('clean', () =>  {
+  return del.sync([
+    'dist', 
+    'src/js/vendor.js',
+    'src/css'
+  ]);
 })
 
 
 
 // optimize images
-gulp.task('img', function(){
+gulp.task('img', () => {
   return gulp.src('src/img/**/*')
     .pipe(imagemin())
     .pipe(gulp.dest('dist/img'))
@@ -27,9 +33,34 @@ gulp.task('img', function(){
 
 
 
+// copy the js from the libraries into a single file
+gulp.task('copy-js', () =>  {
+  gulp.src([
+    // add js files from used libraries
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/bootstrap/dist/js/bootstrap.min.js'
+  ])
+  .pipe(concat('vendor.js'))
+  .pipe(gulp.dest('src/js/'))
+})
+
+
+
+// copy the css from the libraries into a single file
+gulp.task('copy-css', () => {
+  gulp.src([
+    // add css files from used libraries
+    'node_modules/bootstrap/dist/css/bootstrap.min.css'
+  ])
+  .pipe(concat('vendor.css'))
+  .pipe(gulp.dest('src/css/'))
+})
+
+
+
 // format scss
-gulp.task('csscomb', function(){
-  return gulp.src('src/scss/*.scss')
+gulp.task('csscomb', () => {
+  return gulp.src('src/scss/app.scss')
       .pipe(csscomb())
       .pipe(gulp.dest('src/scss/'));
 })
@@ -37,8 +68,8 @@ gulp.task('csscomb', function(){
 
 
 // compile and format scss file into css
-gulp.task('css', function(){
-  return gulp.src('src/scss/app.scss')
+gulp.task('css', () => {
+  gulp.src('src/scss/app.scss')
     .pipe(sass())
     .pipe(csscomb())
     .pipe(postcss())
@@ -49,11 +80,12 @@ gulp.task('css', function(){
 
 
 // default task
-gulp.task('default', ['clean', 'csscomb', 'css', 'img'], () => {
+gulp.task('default', ['clean', 'copy-js', 'copy-css', 'csscomb', 'css', 'img'], () => {
   gulp.src('src/*.html')
     .pipe(useref())
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minifyCss()))
+    .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest('dist'))
 })
 
