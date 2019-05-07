@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const del = require('del')
 const sass = require('gulp-sass')
 const postcss = require('gulp-postcss')
 const csscomb = require ('gulp-csscomb')
@@ -6,6 +7,13 @@ const useref = require('gulp-useref')
 const gulpif = require('gulp-if')
 const uglify = require('gulp-uglify')
 const minifyCss = require('gulp-clean-css')
+
+
+
+// delete the dist folder before each asset build
+gulp.task('clean', function () {
+  return del('dist');
+});
 
 
 
@@ -31,7 +39,7 @@ gulp.task('css', function(){
 
 
 // default task
-gulp.task('default', ['csscomb', 'css'], () => {
+gulp.task('default', ['clean', 'csscomb', 'css'], () => {
   gulp.src('src/*.html')
     .pipe(useref())
     .pipe(gulpif('*.js', uglify()))
