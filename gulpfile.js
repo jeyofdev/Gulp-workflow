@@ -7,13 +7,23 @@ const useref = require('gulp-useref')
 const gulpif = require('gulp-if')
 const uglify = require('gulp-uglify')
 const minifyCss = require('gulp-clean-css')
+const imagemin = require('gulp-imagemin')
 
 
 
 // delete the dist folder before each asset build
 gulp.task('clean', function () {
   return del('dist');
-});
+})
+
+
+
+// optimize images
+gulp.task('img', function(){
+  return gulp.src('src/img/**/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('dist/img'))
+})
 
 
 
@@ -22,7 +32,7 @@ gulp.task('csscomb', function(){
   return gulp.src('src/scss/*.scss')
       .pipe(csscomb())
       .pipe(gulp.dest('src/scss/'));
-});
+})
 
 
 
@@ -39,12 +49,12 @@ gulp.task('css', function(){
 
 
 // default task
-gulp.task('default', ['clean', 'csscomb', 'css'], () => {
+gulp.task('default', ['clean', 'csscomb', 'css', 'img'], () => {
   gulp.src('src/*.html')
     .pipe(useref())
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minifyCss()))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist'))
 })
 
 
