@@ -1,2 +1,4 @@
 /node_modules/
 /dist/
+/src/fonts/
+/src/js/vendor/bootstrap
