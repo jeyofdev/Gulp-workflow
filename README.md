@@ -21,9 +21,10 @@ $ yarn -v
 
 ### Gulp installation
 
-Install Gulp from CLI
+Install Gulp et gulp-cli from CLI
 ```sh
-$ yarn add gulp@3.9.1 --dev
+$ yarn add gulp --dev
+$ yarn add gulp-cli --dev
 ```
 
 
@@ -80,5 +81,4 @@ $ yarn install
 * clean public folder before building
 * optimize the images files
 * compiles sass/scss to the css file
-* builds source-maps
 * copies all web fonts
