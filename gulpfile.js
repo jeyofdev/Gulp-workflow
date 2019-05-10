@@ -10,6 +10,10 @@ const gulpif = require('gulp-if')
 const uglify = require('gulp-uglify')
 const minifyCss = require('gulp-clean-css')
 const imagemin = require('gulp-imagemin')
+const rev = require('gulp-rev')
+const revRewrite = require('gulp-rev-rewrite')
+const filter = require('gulp-filter')
+const revDelete = require('gulp-rev-delete-original');
 
 
 
@@ -103,6 +107,23 @@ function compile () {
 
 
 
+// add the hash on the assets to dist folder
+function hash () {
+  let assetFilter = filter(['dist/**/*', '!dist/*.html'], { restore: true });
+  
+  return src('./dist/**')
+    .pipe(assetFilter)
+    .pipe(rev())
+    .pipe(revDelete())
+    .pipe(assetFilter.restore)
+    .pipe(revRewrite())
+    .pipe(dest('./dist'))
+    .pipe(rev.manifest('manifest.json'))
+    .pipe(dest('./dist'))
+}
+
+
+
 // task watch
 function watcher () {
   watch('./src/scss/app/*.scss', { ignoreInitial: false }, css)
@@ -117,7 +138,8 @@ module.exports = {
     parallel(images, copyFonts, copyCss, copyJs), 
     parallel(formatScss, fonts), 
     css, 
-    compile
+    compile,
+    hash
   ),
   watch: series(clean, watcher)
 }
