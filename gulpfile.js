@@ -16,6 +16,8 @@ const revRewrite = require('gulp-rev-rewrite')
 const filter = require('gulp-filter')
 const revDelete = require('gulp-rev-delete-original')
 
+const eslint = require('gulp-eslint')
+
 
 
 // delete some files before each asset creation
@@ -91,7 +93,10 @@ function css () {
 
 // add sourcemap to js file
 function js () {
-  return src('./src/js/*.js', { sourcemaps: true })
+  return src(['src/js/*.js', '!src/js/vendor.min.js'], { sourcemaps: true })
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
     .pipe(dest('./src/js', { sourcemaps: '.' }))
 }
 
