@@ -38,6 +38,7 @@
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-rev-rewrite": "^1.1.4",
     "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^3.1.6",
     "node-sass": "^4.12.0"

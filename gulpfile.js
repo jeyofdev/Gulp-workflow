@@ -1,6 +1,6 @@
 const { src, dest, watch, series, parallel } = require('gulp')
 const del = require('del')
-const rename = require("gulp-rename")
+const rename = require('gulp-rename')
 const concat = require('gulp-concat')
 const csscomb = require('gulp-csscomb')
 const sass = require('gulp-sass')
@@ -79,12 +79,20 @@ function formatScss () {
 
 // compile and format scss file into css
 function css () {
-  return src('./src/scss/*.scss')
+  return src('./src/scss/*.scss', { sourcemaps: true })
     .pipe(sass())
     .pipe(csscomb())
     .pipe(postcss())
     .on('error', sass.logError)
-    .pipe(dest('./src/css'))
+    .pipe(dest('./src/css', { sourcemaps: '.' }))
+}
+
+
+
+// add sourcemap to js file
+function js () {
+  return src('./src/js/*.js', { sourcemaps: true })
+    .pipe(dest('./src/js', { sourcemaps: '.' }))
 }
 
 
@@ -142,7 +150,7 @@ module.exports = {
     clean, 
     parallel(images, copyFonts, copyCss, copyJs), 
     parallel(formatScss, fonts), 
-    css, 
+    parallel(css, js), 
     compile,
     hash
   ),
