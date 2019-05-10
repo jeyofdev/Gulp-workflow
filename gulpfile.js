@@ -9,11 +9,12 @@ const useref = require('gulp-useref')
 const gulpif = require('gulp-if')
 const uglify = require('gulp-uglify')
 const minifyCss = require('gulp-clean-css')
+const htmlmin = require('gulp-htmlmin')
 const imagemin = require('gulp-imagemin')
 const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
 const filter = require('gulp-filter')
-const revDelete = require('gulp-rev-delete-original');
+const revDelete = require('gulp-rev-delete-original')
 
 
 
@@ -100,6 +101,10 @@ function fonts () {
 function compile () {
   return src('./src/*.html')
     .pipe(useref())
+    .pipe(gulpif('*.html', htmlmin({ 
+      collapseWhitespace: true,
+      removeComments: true
+    })))
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minifyCss()))
     .pipe(dest('./dist'))
@@ -109,7 +114,7 @@ function compile () {
 
 // add the hash on the assets to dist folder
 function hash () {
-  let assetFilter = filter(['dist/**/*', '!dist/*.html'], { restore: true });
+  let assetFilter = filter(['dist/**/*', '!dist/*.html'], { restore: true })
   
   return src('./dist/**')
     .pipe(assetFilter)
