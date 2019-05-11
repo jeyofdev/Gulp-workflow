@@ -15,7 +15,6 @@ const rev = require('gulp-rev')
 const revRewrite = require('gulp-rev-rewrite')
 const filter = require('gulp-filter')
 const revDelete = require('gulp-rev-delete-original')
-
 const eslint = require('gulp-eslint')
 
 
@@ -144,12 +143,15 @@ function hash () {
 
 // task watch
 function watcher () {
+  watch('./src/img/**/*', { ignoreInitial: false }, images)
+  watch('./src/scss/app/*.scss', { ignoreInitial: false }, formatScss)
   watch('./src/scss/app/*.scss', { ignoreInitial: false }, css)
+  watch(['src/js/*.js', '!src/js/vendor.min.js'], { ignoreInitial: false }, js)
 }
 
 
 
-// for run task
+// creating tasks
 module.exports = {
   default: series(
     clean, 
@@ -159,5 +161,7 @@ module.exports = {
     compile,
     hash
   ),
-  watch: series(clean, watcher)
+  lib: parallel(copyFonts, copyCss, copyJs),
+  watch: series(clean, watcher),
+  prod: series(clean, images, fonts, css, compile, hash)
 }
