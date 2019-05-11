@@ -31,8 +31,10 @@ $ yarn add gulp-cli --dev
 
 ### Available Gulp commands
 
-* `gulp` — Compile and optimize the files in assets directory for production
+* `gulp` — Compile and optimize the files to dist directory
+* `gulp lib` — copy the libraries that you need
 * `gulp watch` — Compile assets when file changes are made
+* `gulp prod` — Compile and optimize the files to dist directory for Production environment
 
 
 
@@ -55,6 +57,7 @@ $ yarn install
 * [Postcss](https://postcss.org/) A tool for transforming CSS with JavaScript
 * [browserslist](https://github.com/browserslist/browserslist) live reloading (browser update after changes)
 * [Autoprefixer](https://github.com/postcss/autoprefixer) plugin to parse CSS and add vendor prefixes
+* [Eslint](https://eslint.org/) a fully pluggable tool for identifying and reporting on patterns in JavaScript
 
 
 
@@ -71,14 +74,39 @@ $ yarn install
 * [gulp-if](https://github.com/robrich/gulp-if) conditionally run a task
 * [gulp-uglify](https://github.com/terinjokes/gulp-uglify) minify JavaScript
 * [gulp-clean-css](https://github.com/scniro/gulp-clean-css) minify css
+* [gulp-rename](https://github.com/hparra/gulp-rename) rename files easily
 * [gulp-imagemin](https://github.com/1000ch/gulp-image) optimize PNG, JPEG, GIF, SVG images
+* [gulp-rev](https://github.com/sindresorhus/gulp-rev) static asset revisioning by appending content hash to filenames
+* [gulp-rev-rewrite](https://github.com/TheDancingCode/gulp-rev-rewrite) rewrite occurences of filenames
+* [gulp-filter](https://github.com/sindresorhus/gulp-filter) filter files
+* [gulp-rev-delete-original](https://github.com/nib-health-funds/gulp-rev-delete-original) delete the original file rewritten by gulp-rev
+* [gulp-eslint](https://github.com/adametry/gulp-eslint) a fully pluggable tool for identifying and reporting on patterns in JavaScript
 
 
 
 
 ### Development and Production environment
 
-* clean public folder before building
-* optimize the images files
+* clean dist directory before building
+
+
+
+
+### Development environment
+
+* copy the libraries that you need
+* format scss
 * compiles sass/scss to the css file
+* check the javascript code with eslint
+* builds source-maps
+
+
+
+
+### Production environment
+
 * copies all web fonts
+* optimize the images files
+* minifies html, css and js
+* add a hash to the assets files
+* generating an asset manifest

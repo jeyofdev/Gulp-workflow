@@ -90,7 +90,7 @@ function css () {
 
 
 
-// add sourcemap to js file
+// add sourcemap and check the code to js file
 function js () {
   return src(['src/js/*.js', '!src/js/vendor.min.js'], { sourcemaps: true })
     .pipe(eslint())
@@ -158,8 +158,7 @@ module.exports = {
     parallel(images, copyFonts, copyCss, copyJs), 
     parallel(formatScss, fonts), 
     parallel(css, js), 
-    compile,
-    hash
+    compile
   ),
   lib: parallel(copyFonts, copyCss, copyJs),
   watch: series(clean, watcher),
