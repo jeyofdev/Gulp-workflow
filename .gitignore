@@ -2,3 +2,6 @@
 /dist/
 /src/fonts/
 /src/js/vendor/bootstrap
+
+yarn.lock
+yarn-error.log

@@ -27,6 +27,11 @@ $ yarn add gulp --dev
 $ yarn add gulp-cli --dev
 ```
 
+Check if [gulp](https://gulpjs.com/) is correctly installed
+```sh
+$ gulp -v
+```
+
 
 
 ### Available Gulp commands
